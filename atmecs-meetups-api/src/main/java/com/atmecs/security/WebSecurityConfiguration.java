@@ -32,11 +32,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
   
       http
+      	.csrf().disable()	
       	.httpBasic()
       .and()	
         .authorizeRequests()
-        .antMatchers("/webapi/admin/**").hasRole("ADMIN")
-        .antMatchers("/webapi/**").permitAll()
+        .antMatchers(HttpMethod.DELETE,"/webapi/admin/**").hasRole("ADMIN")
+        .antMatchers(HttpMethod.GET,"/webapi/admin/**").hasRole("ADMIN")
+        .antMatchers(HttpMethod.POST,"/webapi/admin/**").hasRole("ADMIN")
+        .antMatchers(HttpMethod.PUT,"/webapi/admin/**").hasRole("ADMIN")
+        
+        .antMatchers(HttpMethod.GET,"/webapi/**").permitAll()
+        .antMatchers(HttpMethod.POST,"/webapi/**").permitAll()
+        .antMatchers(HttpMethod.PUT,"/webapi/**").permitAll()
+        
       //  .and().httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint())
       .and()
       	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);//We don't need sessions to be created.

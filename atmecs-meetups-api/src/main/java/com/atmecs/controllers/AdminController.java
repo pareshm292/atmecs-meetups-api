@@ -3,6 +3,9 @@ package com.atmecs.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,26 +33,35 @@ public class AdminController {
 	
 
 	@RequestMapping(value="/meetups",method=RequestMethod.POST)
-	public void addMeetUp(@RequestBody MeetUp meetUp){
+	public ResponseEntity<MeetUp> addMeetUp(@RequestBody MeetUp meetUp){
 		
 		 meetUpService.addMeetUp(meetUp);
+		 ResponseEntity<MeetUp> responseEntity = new ResponseEntity<MeetUp>(HttpStatus.CREATED);
+		 
+		 return responseEntity;
+		 
 		
 	}
 
 	
 
 	@RequestMapping(value="/meetups/{title}",method=RequestMethod.DELETE)
-	public void removeMeetup(@PathVariable String title){
+	public ResponseEntity<MeetUp> removeMeetup(@PathVariable String title){
 	
 		meetUpService.removeMeetUp(title);
-		
+		ResponseEntity<MeetUp> responseEntity = new ResponseEntity<MeetUp>(HttpStatus.OK);
+		 
+		 return responseEntity;
 	}
 	
 	@RequestMapping(value="/meetups/{title}",method=RequestMethod.PUT)
-	public void updateMeetup(@PathVariable String title,@RequestBody MeetUp meetup){
+	public ResponseEntity<MeetUp> updateMeetup(@PathVariable String title,@RequestBody MeetUp meetup){
 	
 		meetUpService.updateMeetUp(meetup);
-		
+		ResponseEntity<MeetUp> responseEntity = new ResponseEntity<MeetUp>(HttpStatus.OK);
+		 
+		 return responseEntity;
+
 	}
 	
 	@RequestMapping(value="/guests",method=RequestMethod.GET)
@@ -60,8 +72,14 @@ public class AdminController {
 	
 
 	@RequestMapping(value="/guests/{id}",method=RequestMethod.DELETE)
-	public void removeGuest(@PathVariable Integer id){
+	public ResponseEntity<Guest> removeGuest(@PathVariable Integer id){
 		guestService.removeGuest(id);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Access-Control-Allow-Origin", "*");
+		ResponseEntity<Guest> responseEntity = new ResponseEntity<Guest>(headers,HttpStatus.OK); 
+		return responseEntity;
+
+	
 	}	
 	
 	

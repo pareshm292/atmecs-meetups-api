@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.atmecs.model.Guest;
 import com.atmecs.model.MeetUp;
 import com.atmecs.repository.MeetUpRepository;
 
@@ -51,5 +52,11 @@ public class MeetUpService {
 	public MeetUp getMeetUp(String title) {
 		return meetUpRepository.findOne(title);
 	}
+
 	
+	public void addGuestToMeetUp(Guest guest,MeetUp meetUp){
+		
+		meetUpRepository.findOne(meetUp.getTitle()).getListOfGuests().add(guest);
+		return;
+	}
 }
