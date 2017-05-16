@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atmecs.model.Guest;
+import com.atmecs.model.MeetUp;
 import com.atmecs.services.GuestService;
 import com.atmecs.services.MeetUpService;
 
@@ -24,21 +25,16 @@ public class GuestController {
 	@Autowired
 	private MeetUpService meetUpService;
 
-	@RequestMapping(value="/guests",method=RequestMethod.GET)
-	public List<Guest> getAllRegisteredGuests(){
-		
-		return guestService.getAllRegisteredGuests();
-	}
+
+	
+/*
+ * 		To Register a new guest.
+ */
 	
 	@RequestMapping(value="/guests",method=RequestMethod.POST)
 	public void registerGuest(@RequestBody Guest guest){
 		guestService.registerGuest(guest);
 	}
-	
-	@RequestMapping(value="/guests/{id}",method=RequestMethod.DELETE)
-	public void removeGuest(@PathVariable Integer id){
-		guestService.removeGuest(id);
-	}	
 	
 	@RequestMapping(value="/guests/{id}",method=RequestMethod.GET)
 	public Guest getGuestById(@PathVariable Integer id){
@@ -52,6 +48,35 @@ public class GuestController {
 		//guest.setGuestId(id);
 		guestService.updateGuest(id,guest);
 	}	
+	
+
+	@RequestMapping(value="/meetups")
+	public List<MeetUp> getAllMeetUps(){
+		
+		return meetUpService.getAllMeetUps();
+	}
+	
+	@RequestMapping(value="/meetups/{title}")
+	public MeetUp getMeetUp(@PathVariable String title){
+		
+		return meetUpService.getMeetUp(title);
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value="/meetupsbypresenter={name}",method=RequestMethod.GET)
+	public List<MeetUp> getMeetUpsByPresenter(@PathVariable String name){
+		
+		System.out.println(name);
+		return meetUpService.getMeetUpsByPresenter(name);
+	}
+	
+	
+
+	
+	
 	
 	
 }
