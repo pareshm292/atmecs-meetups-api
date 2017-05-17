@@ -27,6 +27,8 @@ public class MeetUpService {
 	}
 
 	public void addMeetUp(MeetUp meetUp) {
+		
+		System.out.println("in add meetup");
 		meetUpRepository.save(meetUp);
 	}
 
@@ -36,6 +38,18 @@ public class MeetUpService {
 
 	public void updateMeetUp(MeetUp meetup) {
 		
+		List<Guest> templist = new ArrayList<>();
+		
+		System.out.println("names of ");
+		for (Guest guest : meetup.getListOfGuests()) {
+			System.out.println(guest.getName());
+		}
+		//MeetUp meet = meetUpRepository.findOne(meetup.getTitle());
+		templist = meetUpRepository.findOne(meetup.getTitle()).getListOfGuests();
+		for (Guest guest : templist) {
+			System.out.println(guest);
+		}
+		meetup.setListOfGuests(templist);
 		meetUpRepository.save(meetup);
 	}
 	
@@ -54,9 +68,11 @@ public class MeetUpService {
 	}
 
 	
-	public void addGuestToMeetUp(Guest guest,MeetUp meetUp){
-		
-		meetUpRepository.findOne(meetUp.getTitle()).getListOfGuests().add(guest);
-		System.out.println(meetUpRepository.findOne(meetUp.getTitle()).getListOfGuests());
+	public void addGuestToMeetUp(Guest guest,String title){
+	
+		MeetUp meetUp = meetUpRepository.findOne(title);
+		meetUp.getListOfGuests().add(guest);
+		meetUpRepository.save(meetUp);
+	
 	}
 }

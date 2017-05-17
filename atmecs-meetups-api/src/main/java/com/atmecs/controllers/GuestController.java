@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -110,12 +111,12 @@ public class GuestController {
 		System.out.println("in add guest to meetup "+title);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Access-Control-Allow-Origin", "*");
-		meetUpService.addGuestToMeetUp(guest, meetUpService.getMeetUp(title));
+		meetUpService.addGuestToMeetUp(guest, title);
 		return new ResponseEntity<Guest>(headers,HttpStatus.OK);
 	}
 	
 	
-
+	@CrossOrigin
 	@RequestMapping(value="/meetups/{title}/guests",method=RequestMethod.GET)
 	public ResponseEntity<List<Guest>> getMeetUpGuestList(@PathVariable String title){
 		

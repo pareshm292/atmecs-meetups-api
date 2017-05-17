@@ -5,10 +5,13 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -41,6 +44,10 @@ public class MeetUp {
 	
 	@ManyToMany(targetEntity=com.atmecs.model.Guest.class,fetch=FetchType.EAGER)
 	//@JsonIgnore
+	@JoinTable(name="meetup_attendees",joinColumns = {
+			@JoinColumn(name = "title", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "guestId",
+					nullable = false, updatable = false) })
 	private List<Guest> listOfGuests;
 
 	public String getTitle() {
