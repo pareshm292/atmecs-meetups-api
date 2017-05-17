@@ -36,6 +36,9 @@ public class GuestController {
 	
 	@RequestMapping(value="/guests",method=RequestMethod.POST)
 	public ResponseEntity<Guest> registerGuest(@RequestBody Guest guest){
+		
+		System.out.println("register guest");
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Access-Control-Allow-Origin", "*");
 		guestService.registerGuest(guest);
@@ -44,6 +47,8 @@ public class GuestController {
 	
 	@RequestMapping(value="/guests/{id}",method=RequestMethod.GET)
 	public ResponseEntity<Guest> getGuestById(@PathVariable Integer id){
+		
+		System.out.println("in get guest by id");
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Access-Control-Allow-Origin", "*");
@@ -54,6 +59,7 @@ public class GuestController {
 	@RequestMapping(value="/guests/{id}",method=RequestMethod.PUT)
 	public ResponseEntity<Guest> updateGuest(@PathVariable Integer id,@RequestBody Guest guest){
 		
+		System.out.println("in update guest details");
 		//guest.setGuestId(id);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Access-Control-Allow-Origin", "*");
@@ -65,6 +71,8 @@ public class GuestController {
 	@RequestMapping(value="/meetups")
 	public ResponseEntity<List<MeetUp>> getAllMeetUps(){
 		
+		
+		System.out.println("in get all meetups");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Access-Control-Allow-Origin", "*");
 		return new ResponseEntity<>(meetUpService.getAllMeetUps(),headers,HttpStatus.OK);
@@ -74,7 +82,7 @@ public class GuestController {
 	@RequestMapping(value="/meetups/{title}")
 	public ResponseEntity<MeetUp> getMeetUp(@PathVariable String title){
 		
-		
+		System.out.println("in get meetup of title");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Access-Control-Allow-Origin", "*");
 		return new ResponseEntity<>(meetUpService.getMeetUp(title),headers,HttpStatus.OK);
@@ -96,13 +104,26 @@ public class GuestController {
 		
 	}
 	
-	@RequestMapping(value="/meetups/{title}/guests/",method=RequestMethod.POST)
+	@RequestMapping(value="/meetups/{title}/guests",method=RequestMethod.POST)
 	public ResponseEntity<Guest> addGuestToMeetUp(@RequestBody Guest guest,@PathVariable String title){
+		
+		System.out.println("in add guest to meetup "+title);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Access-Control-Allow-Origin", "*");
 		meetUpService.addGuestToMeetUp(guest, meetUpService.getMeetUp(title));
 		return new ResponseEntity<Guest>(headers,HttpStatus.OK);
 	}
 	
+	
+
+	@RequestMapping(value="/meetups/{title}/guests",method=RequestMethod.GET)
+	public ResponseEntity<List<Guest>> getMeetUpGuestList(@PathVariable String title){
+		
+		System.out.println("in get guestlist of meetup "+title);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Access-Control-Allow-Origin", "*");
+		List<Guest> meetUpGuestlist = meetUpService.getMeetUp(title).getListOfGuests();
+		return new ResponseEntity<List<Guest>>(meetUpGuestlist,headers,HttpStatus.OK);
+	}
 	
 }

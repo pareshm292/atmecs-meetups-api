@@ -57,6 +57,6 @@ public class MeetUpService {
 	public void addGuestToMeetUp(Guest guest,MeetUp meetUp){
 		
 		meetUpRepository.findOne(meetUp.getTitle()).getListOfGuests().add(guest);
-		return;
+		System.out.println(meetUpRepository.findOne(meetUp.getTitle()).getListOfGuests());
 	}
 }
