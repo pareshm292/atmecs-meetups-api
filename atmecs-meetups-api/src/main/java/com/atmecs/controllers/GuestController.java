@@ -60,8 +60,7 @@ public class GuestController {
 	@RequestMapping(value="/guests/{id}",method=RequestMethod.PUT)
 	public ResponseEntity<Guest> updateGuest(@PathVariable Integer id,@RequestBody Guest guest){
 		
-		System.out.println("in update guest details");
-		//guest.setGuestId(id);
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Access-Control-Allow-Origin", "*");
 		return new ResponseEntity<Guest>(guestService.getGuestById(id),headers,HttpStatus.OK);
